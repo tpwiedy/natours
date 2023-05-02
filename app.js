@@ -12,7 +12,7 @@ const globalErrorHandler = require('./controllers/errorController');
 const tourRouter = require('./routes/tourRoutes');
 const userRouter = require('./routes/userRoutes');
 
-// express framework
+// Start express app
 const app = express();
 
 // 1) GLOBAL MIDDLEWARES
