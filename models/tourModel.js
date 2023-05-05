@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const slugify = require('slugify');
+// const User = require('./userModel');
 // const validator = require('validator');
 // Mongoose schema
 const tourSchema = new mongoose.Schema(
@@ -106,11 +107,12 @@ const tourSchema = new mongoose.Schema(
         day: Number,
       },
     ],
+    guides: [{ type: mongoose.Schema.ObjectId, ref: 'User' }],
   },
   {
     // show the virtual properties in results
     toJSON: { virtuals: true },
-    toObject: { virtual: true },
+    toObject: { virtuals: true },
   }
 );
 
@@ -125,6 +127,31 @@ tourSchema.pre('save', function (next) {
   next();
 });
 
+// QUERY MIDDLEWARE
+// It's simply to trigger all the query which start with find() ex: .findOne() .findMany() .findOneAndDelete() etc.
+// tourSchema.pre(find(), function (next) {
+tourSchema.pre(/^find/, function (next) {
+  this.find({ secretTour: { $ne: true } });
+
+  this.start = Date.now();
+  next();
+});
+
+tourSchema.pre(/^find/, function (next) {
+  this.populate({
+    path: 'guides',
+    select: '-__v -passwordChangedAt',
+  });
+  next();
+});
+
+// PreSave Embedding document
+// tourSchema.pre('save', async function (next) {
+//   const guidesPromises = this.guides.map(async (id) => await User.findById(id));
+//   this.guides = await Promise.all(guidesPromises);
+//   next();
+// });
+
 // tourSchema.pre('save', function (next) {
 //   console.log('Will save document...');
 //   next();
@@ -135,15 +162,6 @@ tourSchema.pre('save', function (next) {
 //   next();
 // });
 
-// QUERY MIDDLEWARE
-// It's simply to trigger all the query which start with find() ex: .findOne() .findMany() .findOneAndDelete() etc.
-// tourSchema.pre(find(), function (next) {
-tourSchema.pre(/^find/, function (next) {
-  this.find({ secretTour: { $ne: true } });
-
-  this.start = Date.now();
-  next();
-});
 tourSchema.post(/^find/, function (docs, next) {
   console.log(`Query took ${Date.now() - this.start} milliseconds!`);
   next();
