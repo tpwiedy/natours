@@ -35,6 +35,7 @@ class APIFeatures {
     if (this.queryString.fields) {
       const fields = this.queryString.fields.split(',').join(' ');
       this.query = this.query.select(fields);
+      // this.query.select(`${fields}`);
     } else {
       // not showing the __v value on result
       this.query = this.query.select('-__v');
@@ -56,4 +57,3 @@ class APIFeatures {
 }
 
 module.exports = APIFeatures;
-
