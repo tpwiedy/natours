@@ -39,6 +39,7 @@ const tourSchema = new mongoose.Schema(
       // VALIDATOR
       min: [1, 'Rating must be above 1.0'],
       max: [5, 'Rating must be below 5.0'],
+      set: (val) => Math.round(val * 10) / 10, //Ex: 4.66666, 46.666, 47, 4.7
     },
     ratingsQuantity: {
       type: Number,
@@ -115,6 +116,9 @@ const tourSchema = new mongoose.Schema(
     toObject: { virtuals: true },
   }
 );
+
+tourSchema.index({ price: 1, ratingsAverage: -1 });
+tourSchema.index({ slug: 1 });
 
 // Virtual Properties to devided from duration days to week
 tourSchema.virtual('durationWeeks').get(function () {
