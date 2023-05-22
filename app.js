@@ -29,6 +29,15 @@ app.use(express.static(path.join(__dirname, 'public')));
 // Set Security HTTP Headers
 app.use(helmet());
 
+// CONTENT SECURITY POLICY for Leafletjs
+app.use((req, res, next) => {
+  res.setHeader(
+    'Content-Security-Policy',
+    "script-src 'self' https://cdnjs.cloudflare.com"
+  );
+  next();
+});
+
 // Development logging
 if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'));

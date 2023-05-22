@@ -1,6 +1,11 @@
 extends base
 include _reviewCard
 
+block append head
+  link(rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.css' integrity='sha512-Zcn6bjR/8RZbLEpLIeOwNtzREBAJnUKESxces60Mpoj+2okopSAcSUIUOseddDm0cxnGQzxIR7vJgsLZbdLE3w==' crossorigin='anonymous' referrerpolicy='no-referrer')
+  script(src='https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.js' integrity='sha512-BwHfrr4c9kmRkLw6iXFdzcdWV/PGkVgiIyIWLLlTSXzWQzxuSg4DiQUCpauz/EWjgk5TYQqX/kvn9pG1NpYfqg==' crossorigin='anonymous' referrerpolicy='no-referrer')
+  scritp(src='/css/leaflet.css' defer)
+
 mixin overviewBox(label, text, icon)
   .overview-box__detail
     svg.overview-box__icon
@@ -66,7 +71,7 @@ block content
         class= `picture-box__img--${i + 1}`)
 
   section.section-map
-    #map
+    #map(data-locations=`${JSON.stringify(tour.locations)}`)
 
   section.section-reviews
     .reviews
