@@ -7,6 +7,7 @@ const mongoSanitize = require('express-mongo-sanitize');
 const xss = require('xss-clean');
 const hpp = require('hpp');
 const cookieParser = require('cookie-parser');
+// const csp = require('express-csp');
 
 // Export Module
 const AppError = require('./utils/appError');
@@ -14,6 +15,7 @@ const globalErrorHandler = require('./controllers/errorController');
 const tourRouter = require('./routes/tourRoutes');
 const userRouter = require('./routes/userRoutes');
 const reviewRouter = require('./routes/reviewRoutes');
+const bookingRouter = require('./routes/bookingRoutes');
 const viewRouter = require('./routes/viewRoutes');
 
 // Start express app
@@ -28,16 +30,16 @@ app.set('views', path.join(__dirname, 'views'));
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Set Security HTTP Headers
-app.use(helmet());
+app.use(helmet.crossOriginEmbedderPolicy({ policy: 'credentialless' }));
 
-// CONTENT SECURITY POLICY for Leafletjs
-app.use((req, res, next) => {
-  res.setHeader(
-    'Content-Security-Policy',
-    "script-src 'self' https://cdnjs.cloudflare.com"
-  );
-  next();
-});
+// // CONTENT SECURITY POLICY
+// app.use((req, res, next) => {
+//   res.setHeader(
+//     'Content-Security-Policy',
+//     "script-src 'self' https://cdnjs.cloudflare.com https://js.stripe.com"
+//   );
+//   next();
+// });
 
 // Development logging
 if (process.env.NODE_ENV === 'development') {
@@ -89,6 +91,7 @@ app.use('/', viewRouter);
 app.use('/api/v1/tours', tourRouter);
 app.use('/api/v1/users', userRouter);
 app.use('/api/v1/reviews', reviewRouter);
+app.use('/api/v1/bookings', bookingRouter);
 
 // This middleware can handle all the HTTP method to handling unhandled routes
 app.all('*', (req, res, next) => {
