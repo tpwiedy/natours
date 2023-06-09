@@ -3,9 +3,7 @@ import axios from 'axios';
 import { showAlert } from './alert';
 
 export const bookTour = async (tourId) => {
-  const stripe = Stripe(
-    'pk_test_51NFqOaEoUewLM9yjaiMsxveSVZHTmvpqL9uKSluVMtXqi25SN7XXGKqK8GwRzVLNmYol63NVmmH5Iqvx3exqxMRT00lL725QrK'
-  );
+  const stripe = Stripe('process.env.STRIPE_PUBLIC_KEY');
   try {
     // 1) Get checkout session from API
     const session = await axios(
