@@ -174,10 +174,10 @@ tourSchema.pre(/^find/, function (next) {
 //   next();
 // });
 
-tourSchema.post(/^find/, function (docs, next) {
-  console.log(`Query took ${Date.now() - this.start} milliseconds!`);
-  next();
-});
+// tourSchema.post(/^find/, function (docs, next) {
+//   console.log(`Query took ${Date.now() - this.start} milliseconds!`);
+//   next();
+// });
 
 // AGGREGATION MIDDLEWARE : this middleware to uncount the secretTour with false value from query
 // tourSchema.pre('aggregate', function (next) {
