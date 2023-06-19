@@ -13,4 +13,8 @@ Here is the API documentation on Postman:
 The API documentation: https://documenter.getpostman.com/view/26320962/2s93eeR9sF#e274b1e6-36ba-40d6-842d-a23cfcd0d012
 The project in this course: https://natours-production-wiedy.up.railway.app/
 
+You can try the web by loggin in using this account:
+username: foxtrot@example.com
+password: test1234
+
 #NodeJS #Express #MongoDB #StripeIntegration #BackendDevelopment #ContinuousLearning #RailwayPlatform
